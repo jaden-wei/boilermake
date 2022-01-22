@@ -1,24 +1,42 @@
+from this import d
 import robin_stocks.robinhood as r
 
 from urllib.request import urlopen
 import json
 
-class Utility:
-    def __init__(self):
-        print("Initialized")
+from secret import *
 
-    def robinhood_login(user, pw):
-        r.login(username=user, password=pw, expiresIn=86400, by_sms=True)
+def get_json_from_url(url):
+    response = urlopen(url)
+    data_json = json.loads(response.read())
+    print(data_json)
+
+def pprint(s):
+    print(json.dumps(s, index=1))
+
+class Utility:
+
+    def robinhood_login(self):
+        r.login(username=USERNAME, password=PASSWORD, expiresIn=86400, by_sms=True)
         print("Logged into Robinhood")
 
-    def robinhood_logout():
+    def robinhood_logout(self):
         r.logout()
         print("Logged out of Robinhood")
 
-    def getInfo(ticker):
-        print(r.stocks.get_stock_quote_by_symbol(ticker))
+    def get_info(self, symbol):
+        print(r.stocks.get_stock_quote_by_symbol(symbol))
 
-url = r.stocks.get_100_most_popular_url()
-response = urlopen(url)
-data_json = json.loads(response.read())
-print(data_json)
+    def get_price_history(self, symbol):
+        pprint(r.stocks.get_stock_historicals(symbol))
+
+    def place__market_order(self, symbol, quantity):
+        pprint(r.orders.order_buy_market(symbol=symbol, quantity=quantity))
+
+
+u = Utility()
+
+u.robinhood_login()
+
+u.get_price_history("AAPL")
+

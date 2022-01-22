@@ -32,6 +32,9 @@ class Utility:
 
     def place__market_order(self, symbol, quantity):
         pprint(r.orders.order_buy_market(symbol=symbol, quantity=quantity))
+    
+    def place_limit_order(self, symbol, quantity, price):
+        pprint(r.orders.order_buy_limit(symbol, quantity, price))
 
 
 u = Utility()
